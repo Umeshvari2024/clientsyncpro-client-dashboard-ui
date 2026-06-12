@@ -1,0 +1,28 @@
+.footer{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    background:#0f172a;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+.footer-content h3{
+    color:#3b82f6;
+    margin-bottom:10px;
+}
+
+.footer-content p{
+    margin:8px 0;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+
+    .footer{
+        margin-left:0;
+        width:100%;
+    }
+
+}
