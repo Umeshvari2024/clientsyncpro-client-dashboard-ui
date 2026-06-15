@@ -3,39 +3,84 @@ import { Link } from "react-router-dom";
 import "../styles/Sidebar.css";
 
 function Sidebar() {
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-return (
-<>
-<button
-className="menu-btn"
-onClick={() => setOpen(!open)}
->
-☰ </button>
+  return (
+    <>
+      <button
+        className="menu-btn"
+        onClick={() => setOpen(!open)}
+      >
+        ☰
+      </button>
 
-```
-  <div className={`sidebar ${open ? "show" : ""}`}>
-    <h2>ClientSync Pro</h2>
+      <div className={`sidebar ${open ? "show" : ""}`}>
 
-    <ul>
-      <li>
-        <Link to="/">🏠 Dashboard</Link>
-      </li>
+        <div className="logo-section">
+          <h2>🚀 ClientSync</h2>
+          <p>Project Management CRM</p>
+        </div>
 
-      <li>👥 Clients</li>
+        <ul>
 
-      <li>
-        <Link to="/projects">📁 Projects</Link>
-      </li>
+          <li>
+            <Link to="/">
+              🏠 Dashboard
+            </Link>
+          </li>
 
-      <li>📄 Documents</li>
-      <li>🎫 Tickets</li>
-      <li>📊 Reports</li>
-      <li>⚙ Settings</li>
-    </ul>
-  </div>
-</>
-);
+          <li>
+           <li>
+            <Link to="/clients">
+            👥 Clients</Link>
+           </li>
+          </li>
+
+          <li>
+            <Link to="/projects">
+              📁 Projects
+            </Link>
+          </li>
+
+          <li>
+  <Link to="/milestones">
+    🎯 Milestones
+  </Link>
+</li>
+
+          <li>
+            <Link to="/documents">
+              📄 Documents
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/tickets">
+              🎫 Tickets
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/reports">
+              📊 Reports
+            </Link>
+          </li>
+
+          <li>
+            <Link to="/settings">
+              ⚙ Settings
+            </Link>
+          </li>
+
+        </ul>
+
+        <div className="sidebar-footer">
+          <p>ClientSync Pro v1.0</p>
+        </div>
+
+      </div>
+    </>
+  );
 }
 
 export default Sidebar;
