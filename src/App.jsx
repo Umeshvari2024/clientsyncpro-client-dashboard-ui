@@ -15,7 +15,7 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter basename="/clientsyncpro-client-dashboard-ui">
+    <BrowserRouter>
       <div className="app-container">
         <Sidebar />
 
