@@ -9,12 +9,13 @@ import ProjectList from "./pages/ProjectList";
 import ProjectDetails from "./pages/ProjectDetails";
 import ClientList from "./pages/ClientList";
 import MilestoneTracking from "./pages/MilestoneTracking";
+import ComplianceDashboard from "./pages/ComplianceDashboard";
 
 import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/clientsyncpro-client-dashboard-ui">
       <div className="app-container">
         <Sidebar />
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/clients" element={<ClientList />} />
             <Route path="/milestones" element={<MilestoneTracking />}/>
+            <Route path="/compliance"element={<ComplianceDashboard />}/>
             <Route
               path="/project-details/:id"
               element={<ProjectDetails />}

@@ -48,6 +48,12 @@ function Sidebar() {
   </Link>
 </li>
 
+<li>
+  <Link to="/compliance">
+    🛡 Compliance Dashboard
+  </Link>
+</li>
+
           <li>
             <Link to="/documents">
               📄 Documents
