@@ -1,188 +1,335 @@
-
-import React from "react";
+import React, { useState } from "react";
 import "../styles/ComplianceDashboard.css";
 
 function ComplianceDashboard() {
+  const [showForm, setShowForm] = useState(false);
+  const [search, setSearch] = useState("");
 
-  const complianceData = [
+  const [title, setTitle] = useState("");
+  const [status, setStatus] = useState("Pending");
+  const [progress, setProgress] = useState("");
+  const [assignedTo, setAssignedTo] = useState("");
+  const [dueDate, setDueDate] = useState("");
+
+  const [message, setMessage] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState("");
+  const handleDelete = (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this record?"
+  );
+
+  if (confirmDelete) {
+    const updatedData = complianceData.filter(
+      (item) => item.id !== id
+    );
+
+    setComplianceData(updatedData);
+
+    setDeleteMessage("🗑 Record deleted successfully!");
+
+    setTimeout(() => {
+      setDeleteMessage("");
+    }, 2000);
+  }
+};
+
+  const [complianceData, setComplianceData] = useState([
+    
+    
     {
-      id: 1,
-      title: "Policy Compliance",
+      id: 101,
+      title: "ISO 27001 Security Compliance",
       status: "Completed",
       progress: 100,
+      assignedTo: "John Smith",
+      dueDate: "2026-07-10",
     },
     {
-      id: 2,
-      title: "Security Audit",
+      id: 102,
+      title: "GDPR Data Protection Audit",
       status: "In Progress",
       progress: 75,
+      assignedTo: "Sarah Wilson",
+      dueDate: "2026-07-15",
     },
     {
-      id: 3,
-      title: "Document Verification",
+      id: 103,
+      title: "Employee Policy Verification",
       status: "Pending",
       progress: 40,
+      assignedTo: "David Brown",
+      dueDate: "2026-07-20",
     },
     {
-      id: 4,
-      title: "Risk Assessment",
+      id: 104,
+      title: "Risk Assessment Review",
       status: "Pending",
       progress: 25,
+      assignedTo: "Emma Davis",
+      dueDate: "2026-07-25",
     },
-    {
-      id: 5,
-      title: "Data Privacy Compliance",
-      status: "Completed",
-      progress: 100,
-    },
-    {
-      id: 6,
-      title: "Employee Training Audit",
-      status: "In Progress",
-      progress: 80,
-    },
-    {
-      id: 7,
-      title: "Vendor Compliance Review",
-      status: "Pending",
-      progress: 35,
-    },
-    {
-      id: 8,
-      title: "ISO Standards Verification",
-      status: "In Progress",
-      progress: 65,
-    },
-    {
-      id: 9,
-      title: "Internal Control Review",
-      status: "Completed",
-      progress: 100,
-    },
-    {
-      id: 10,
-      title: "Financial Compliance Check",
-      status: "Pending",
-      progress: 20,
-    },
-    {
-      id: 11,
-      title: "Cyber Security Assessment",
-      status: "In Progress",
-      progress: 70,
-    },
-    {
-      id: 12,
-      title: "Regulatory Documentation",
-      status: "Completed",
-      progress: 100,
-    },
-  ];
+  ]);
+    const handleSubmit = (e) => {
+    e.preventDefault();
+    
 
-  return (
+    const newCompliance = {
+      id:
+        complianceData.length > 0
+          ? complianceData[complianceData.length - 1].id + 1
+          : 101,
+      title,
+      status,
+      progress: Number(progress),
+      assignedTo,
+      dueDate,
+    };
+
+    setComplianceData((prev) => [...prev, newCompliance]);
+
+    setMessage("✅ Compliance Added Successfully!");
+
+    setTitle("");
+    setStatus("Pending");
+    setProgress("");
+    setAssignedTo("");
+    setDueDate("");
+    setShowForm(false);
+
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  };
+
+  const filteredData = complianceData.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+  );
+  
+
+  const totalAudits = complianceData.length;
+
+  const completedCount = complianceData.filter(
+    (item) => item.status === "Completed"
+  ).length;
+
+  const progressCount = complianceData.filter(
+    (item) => item.status === "In Progress"
+  ).length;
+
+  const pendingCount = complianceData.filter(
+    (item) => item.status === "Pending"
+  ).length; 
+   return (
     <div className="compliance-page">
 
       <div className="header-section">
         <h1>🛡 Compliance Dashboard</h1>
 
         <p>
-          Monitor compliance activities, track audit status,
-          manage risks and ensure regulatory requirements
-          across the organization.
+          Monitor compliance activities, audits,
+          risk management and regulatory requirements.
         </p>
       </div>
 
-      {/* Statistics Cards */}
+      <div className="top-action">
+        <button
+          className="add-btn"
+          onClick={() => setShowForm(true)}
+        >
+          + Add Compliance
+        </button>
+      </div>
 
-      <div className="stats-grid">
+      {message && (
+        <div className="success-message">
+          {message}
+        </div>
+      )}
+
+      {showForm && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+
+            <div className="modal-header">
+              <h2>Add Compliance</h2>
+
+              <button
+                className="close-btn"
+                onClick={() => setShowForm(false)}
+              >
+                ✕
+              </button>
+            </div>
+                        <form
+              className="compliance-form"
+              onSubmit={handleSubmit}>
+
+                
+              <div className="form-group">
+                <label>Compliance Title</label>
+                
+
+                <input
+                  type="text"
+                  placeholder="Enter Compliance Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Status</label>
+
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option value="Completed">Completed</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Assigned To</label>
+
+                <input
+                  type="text"
+                  placeholder="Enter Employee Name"
+                  value={assignedTo}
+                  onChange={(e) => setAssignedTo(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Due Date</label>
+
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  required
+                />
+              </div>
+              
+
+              <div className="form-group">
+                <label>Progress (%)</label>
+
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  placeholder="Enter Progress"
+                  value={progress}
+                  onChange={(e) => setProgress(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="save-btn"
+              >
+                Save Compliance
+              </button>
+            </form>
+
+          </div>
+        </div>
+      )}
+            <div className="stats-grid">
 
         <div className="stat-card">
-          <h2>12</h2>
+          <h2>{totalAudits}</h2>
           <p>Total Audits</p>
         </div>
 
         <div className="stat-card">
-          <h2>4</h2>
+          <h2>{completedCount}</h2>
           <p>Completed</p>
         </div>
 
         <div className="stat-card">
-          <h2>4</h2>
+          <h2>{progressCount}</h2>
           <p>In Progress</p>
         </div>
 
         <div className="stat-card">
-          <h2>4</h2>
+          <h2>{pendingCount}</h2>
           <p>Pending</p>
         </div>
 
       </div>
+            <div className="table-container">
+                
 
-      {/* Summary Cards */}
+        <div className="table-header">
+          <h2>Compliance Records</h2>
 
-      <div className="summary-grid">
-
-        <div className="summary-card">
-          <h3>Last Audit Date</h3>
-          <p>15 Jun 2026</p>
+          <input
+            type="text"
+            className="search-box"
+            placeholder="Search Compliance..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
-        <div className="summary-card">
-          <h3>Compliance Score</h3>
-          <p>92%</p>
-        </div>
+        <table className="compliance-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Progress</th>
+              <th>Assigned To</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-        <div className="summary-card">
-          <h3>Critical Risks</h3>
-          <p>2 Open Issues</p>
-        </div>
+     <tbody>
+  {filteredData.map((item) => (
+    <tr key={item.id}>
+      <td>{item.id}</td>
 
-      </div>
+      <td>{item.title}</td>
 
-      {/* Compliance Cards */}
+      <td>
+        <span
+          className={`status ${item.status
+            .toLowerCase()
+            .replace(/\s/g, "-")}`}
+        >
+          {item.status}
+        </span>
+      </td>
+      
 
-      <div className="compliance-grid">
+      <td>{item.progress}%</td>
 
-        {complianceData.map((item) => (
+      <td>{item.assignedTo}</td>
 
-          <div className="compliance-card" key={item.id}>
+      <td>{item.dueDate}</td>
+      <td>
+  <button
+    className="delete-btn"
+    onClick={() => handleDelete(item.id)}
+  >
+    🗑 Delete
+  </button>
+</td>
+    </tr>
+  ))}
+</tbody>
+</table>
 
-            <div className="card-header">
-
-              <h3>{item.title}</h3>
-
-              <span
-                className={`status ${item.status
-                  .toLowerCase()
-                  .replace(" ", "-")}`}
-              >
-                {item.status}
-              </span>
-
-            </div>
-
-            <div className="progress-bar">
-
-              <div
-                className="progress-fill"
-                style={{ width: `${item.progress}%` }}
-              ></div>
-
-            </div>
-
-            <p className="progress-text">
-              {item.progress}% Complete
-            </p>
-
-          </div>
-
-        ))}
-
-      </div>
-
-    </div>
-  );
+</div>
+</div>
+);
 }
 
 export default ComplianceDashboard;
-
