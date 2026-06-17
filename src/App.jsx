@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -15,7 +15,7 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="app-container">
         <Sidebar />
 
@@ -26,8 +26,8 @@ function App() {
             <Route path="/" element={<ClientDashboard />} />
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/clients" element={<ClientList />} />
-            <Route path="/milestones" element={<MilestoneTracking />}/>
-            <Route path="/compliance"element={<ComplianceDashboard />}/>
+            <Route path="/milestones" element={<MilestoneTracking />} />
+            <Route path="/compliance" element={<ComplianceDashboard />} />
             <Route
               path="/project-details/:id"
               element={<ProjectDetails />}
@@ -37,7 +37,7 @@ function App() {
           <Footer />
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
