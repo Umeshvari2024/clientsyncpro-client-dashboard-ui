@@ -279,6 +279,7 @@ const handleDelete = (id) => {
       )}
 
      <div className="table-container">
+      <div className="table-wrapper">
 
   <table className="milestone-table">
 
@@ -368,6 +369,7 @@ const handleDelete = (id) => {
               </button>
 
             </div>
+            
           </td>
 
         </tr>
@@ -379,6 +381,7 @@ const handleDelete = (id) => {
   </table>
 
 </div>
+    </div>
     </div>
   );
 }

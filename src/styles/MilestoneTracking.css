@@ -535,3 +535,16 @@
     padding:8px 10px;
   }
 }
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+@media(max-width:768px){
+
+  .milestone-table{
+    min-width:950px;
+  }
+
+}
