@@ -278,31 +278,33 @@ const handleDelete = (id) => {
 
       )}
 
-      <div className="table-container">
+     <div className="table-container">
 
   <table className="milestone-table">
 
     <thead>
       <tr>
         <th>ID</th>
-        <th>Milestone</th>
+        <th>Milestone Name</th>
         <th>Status</th>
         <th>Priority</th>
         <th>Progress</th>
         <th>Due Date</th>
-        <th>Extend</th>
+        <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
 
-      {filteredMilestones.map((m) => (
+      {filteredMilestones.map((m, index) => (
 
         <tr key={m.id}>
 
-          <td>{m.id}</td>
+          <td>MS-{index + 1}</td>
 
-          <td>{m.name}</td>
+          <td className="milestone-name">
+            {m.name}
+          </td>
 
           <td>
             <span
@@ -322,38 +324,51 @@ const handleDelete = (id) => {
             </span>
           </td>
 
-          <td>{m.progress}%</td>
+          <td>
+            <strong>{m.progress}%</strong>
+          </td>
 
-          <td>{m.dueDate}</td>
+          <td className="due-date-cell">
+            {m.dueDate}
+          </td>
 
-         <td className="actions">
+          <td>
+            <div className="actions">
 
-  <button
-    className="extend-btn"
-    onClick={(e) => {
-      document.getElementById(`date-${m.id}`).showPicker();
-    }}
-  >
-    📅 Extend
-  </button>
+              <button
+                className="extend-btn"
+                onClick={() =>
+                  document
+                    .getElementById(`date-${m.id}`)
+                    .showPicker()
+                }
+              >
+                📅 Extend
+              </button>
 
-  <input
-    id={`date-${m.id}`}
-    type="date"
-    className="hidden-date"
-    onChange={(e) =>
-      handleExtendTimeline(m.id, e.target.value)
-    }
-  />
+              <input
+                id={`date-${m.id}`}
+                type="date"
+                className="hidden-date"
+                onChange={(e) =>
+                  handleExtendTimeline(
+                    m.id,
+                    e.target.value
+                  )
+                }
+              />
 
-  <button
-    className="delete-btn"
-    onClick={() => handleDelete(m.id)}
-  >
-    Delete
-  </button>
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  handleDelete(m.id)
+                }
+              >
+                🗑 Delete
+              </button>
 
-</td>
+            </div>
+          </td>
 
         </tr>
 
@@ -364,7 +379,6 @@ const handleDelete = (id) => {
   </table>
 
 </div>
-
     </div>
   );
 }

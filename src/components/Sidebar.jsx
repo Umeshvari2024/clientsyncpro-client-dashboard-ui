@@ -52,6 +52,12 @@ function Sidebar() {
           </li>
 
           <li>
+            <Link to="/deliverables">
+              📦 Deliverables
+            </Link>
+          </li>
+
+          <li>
             <Link to="/documents">
               📄 Documents
             </Link>

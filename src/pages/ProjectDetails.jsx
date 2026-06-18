@@ -1,171 +1,547 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import jsPDF from "jspdf";
 import "../styles/ProjectDetails.css";
 
 function ProjectDetails() {
-  const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const projects = {
-    1: {
-      name: "Employee Portal",
-      status: "Development",
-      manager: "John Smith",
-      budget: "₹2,50,000",
-      progress: 72,
-      team: 12,
-      startDate: "01 June 2026",
-      endDate: "30 June 2026",
-      description:
-        "Employee Portal helps employees manage attendance, leave requests, payroll and internal communication.",
-    },
+  const project = location.state?.project;
 
-    2: {
-      name: "CRM System",
-      status: "Testing",
-      manager: "David Lee",
-      budget: "₹3,80,000",
-      progress: 85,
-      team: 15,
-      startDate: "10 May 2026",
-      endDate: "25 June 2026",
-      description:
-        "CRM System helps manage customer interactions, leads, sales pipelines and reports.",
-    },
+  const [isEditing, setIsEditing] =
+    useState(false);
 
-    3: {
-      name: "HRMS System",
-      status: "Design",
-      manager: "Sarah Johnson",
-      budget: "₹1,90,000",
-      progress: 45,
-      team: 8,
-      startDate: "15 June 2026",
-      endDate: "30 July 2026",
-      description:
-        "HRMS System manages recruitment, employee records, attendance and payroll processes.",
-    },
-
-    4: {
-      name: "Client Management",
-      status: "Completed",
-      manager: "Michael Brown",
-      budget: "₹4,20,000",
-      progress: 100,
-      team: 20,
-      startDate: "01 April 2026",
-      endDate: "31 May 2026",
-      description:
-        "Client Management platform helps track clients, contracts, invoices and communication history.",
-    },
-  };
-
-  const project = projects[id];
+  const [editedProject, setEditedProject] =
+    useState(
+      project || {
+        name: "",
+        client: "",
+        manager: "",
+        budget: "",
+        priority: "",
+        status: "",
+        progress: 0,
+        team: 0,
+        deadline: "",
+      }
+    );
 
   if (!project) {
-    return <h2>Project Not Found</h2>;
+    return (
+      <div className="details-page">
+        <div className="details-card">
+          <h2>
+            ❌ Project Not Found
+          </h2>
+
+          <button
+            className="back-btn"
+            onClick={() =>
+              navigate("/projects")
+            }
+          >
+            Back
+          </button>
+        </div>
+      </div>
+    );
   }
+
+  const downloadReport = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(22);
+
+    doc.text(
+      "Project Report",
+      20,
+      20
+    );
+
+    doc.setFontSize(12);
+
+    doc.text(
+      `Project Name : ${editedProject.name}`,
+      20,
+      40
+    );
+
+    doc.text(
+      `Client : ${editedProject.client}`,
+      20,
+      50
+    );
+
+    doc.text(
+      `Manager : ${editedProject.manager}`,
+      20,
+      60
+    );
+
+    doc.text(
+      `Budget : ${editedProject.budget}`,
+      20,
+      70
+    );
+
+    doc.text(
+      `Priority : ${editedProject.priority}`,
+      20,
+      80
+    );
+
+    doc.text(
+      `Status : ${editedProject.status}`,
+      20,
+      90
+    );
+
+    doc.text(
+      `Team Members : ${editedProject.team}`,
+      20,
+      100
+    );
+
+    doc.text(
+      `Deadline : ${editedProject.deadline}`,
+      20,
+      110
+    );
+
+    doc.text(
+      `Progress : ${editedProject.progress}%`,
+      20,
+      120
+    );
+
+    doc.save(
+      `${editedProject.name}.pdf`
+    );
+  };
+
+  const saveChanges = () => {
+    alert(
+      "✅ Project Updated Successfully"
+    );
+
+    setIsEditing(false);
+  };
 
   return (
     <div className="details-page">
 
       <div className="details-card">
 
-        <h1 className="page-title">{project.name}</h1>
+        <div className="header-actions">
 
-        <p className="project-description">
-          {project.description}
-        </p>
+          <h1 className="page-title">
+            {editedProject.name}
+          </h1>
 
-        <div className="info-grid">
+          <div>
 
-          <div className="info-box">
-            <h4>Status</h4>
-            <p>{project.status}</p>
-          </div>
+            <button
+              className="edit-btn"
+              onClick={() =>
+                setIsEditing(
+                  !isEditing
+                )
+              }
+            >
+              ✏️ Edit
+            </button>
 
-          <div className="info-box">
-            <h4>Project Manager</h4>
-            <p>{project.manager}</p>
-          </div>
+            <button
+              className="download-btn"
+              onClick={
+                downloadReport
+              }
+            >
+              📥 Download PDF
+            </button>
 
-          <div className="info-box">
-            <h4>Budget</h4>
-            <p>{project.budget}</p>
-          </div>
-
-          <div className="info-box">
-            <h4>Team Members</h4>
-            <p>{project.team}</p>
-          </div>
-
-          <div className="info-box">
-            <h4>Start Date</h4>
-            <p>{project.startDate}</p>
-          </div>
-
-          <div className="info-box">
-            <h4>End Date</h4>
-            <p>{project.endDate}</p>
           </div>
 
         </div>
 
-        <h3 className="section-title">Project Progress</h3>
+        <p className="project-description">
+          Complete Project
+          Information Dashboard
+        </p>
+
+        {isEditing && (
+
+          <div className="edit-form">
+
+            <input
+              type="text"
+              value={
+                editedProject.name
+              }
+              placeholder="Project Name"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  name:
+                    e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="text"
+              value={
+                editedProject.client
+              }
+              placeholder="Client"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  client:
+                    e.target.value,
+                })
+              }
+            />         
+               <input
+              type="text"
+              value={
+                editedProject.manager
+              }
+              placeholder="Manager"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  manager:
+                    e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="text"
+              value={
+                editedProject.budget
+              }
+              placeholder="Budget"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  budget:
+                    e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="number"
+              value={
+                editedProject.team
+              }
+              placeholder="Team"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  team:
+                    e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="date"
+              value={
+                editedProject.deadline
+              }
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  deadline:
+                    e.target.value,
+                })
+              }
+            />
+
+            <select
+              value={
+                editedProject.priority
+              }
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  priority:
+                    e.target.value,
+                })
+              }
+            >
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+
+            <select
+              value={
+                editedProject.status
+              }
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  status:
+                    e.target.value,
+                })
+              }
+            >
+              <option>
+                Development
+              </option>
+
+              <option>
+                Testing
+              </option>
+
+              <option>
+                Pending
+              </option>
+
+              <option>
+                Completed
+              </option>
+            </select>
+
+            <input
+              type="number"
+              value={
+                editedProject.progress
+              }
+              placeholder="Progress"
+              onChange={(e) =>
+                setEditedProject({
+                  ...editedProject,
+                  progress:
+                    e.target.value,
+                })
+              }
+            />
+
+            <button
+              className="save-btn"
+              onClick={
+                saveChanges
+              }
+            >
+              💾 Save Changes
+            </button>
+
+          </div>
+
+        )}
+
+        <h3 className="section-title">
+          📋 Project Details
+        </h3>
+
+        <table className="details-table">
+
+          <tbody>
+
+            <tr>
+              <th>
+                Project Name
+              </th>
+
+              <td>
+                {
+                  editedProject.name
+                }
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Client
+              </th>
+
+              <td>
+                {
+                  editedProject.client
+                }
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Manager
+              </th>
+
+              <td>
+                {
+                  editedProject.manager
+                }
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Budget
+              </th>
+
+              <td>
+                {
+                  editedProject.budget
+                }
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Team Members
+              </th>
+
+              <td>
+                {
+                  editedProject.team
+                }
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                Deadline
+              </th>
+
+              <td>
+                {
+                  editedProject.deadline
+                }
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+                <h3 className="section-title">
+          📊 Project Progress
+        </h3>
 
         <div className="progress-bar">
+
           <div
             className="progress-fill"
-            style={{ width: `${project.progress}%` }}
+            style={{
+              width: `${editedProject.progress}%`,
+            }}
           ></div>
+
         </div>
 
         <p className="progress-text">
-          {project.progress}% Complete
+          {editedProject.progress}% Complete
         </p>
 
-        <h3 className="section-title">👨‍💻 Team Members</h3>
+        <h3 className="section-title">
+          👨‍💻 Team Information
+        </h3>
 
         <div className="team-grid">
 
           <div className="team-card">
-            <h4>John Smith</h4>
-            <p>Project Manager</p>
+            <h4>
+              {editedProject.manager}
+            </h4>
+
+            <p>
+              Project Manager
+            </p>
           </div>
 
           <div className="team-card">
-            <h4>David Lee</h4>
-            <p>Frontend Developer</p>
-          </div>
+            <h4>
+              Team Size
+            </h4>
 
-          <div className="team-card">
-            <h4>Sarah Johnson</h4>
-            <p>UI/UX Designer</p>
-          </div>
-
-          <div className="team-card">
-            <h4>Michael Brown</h4>
-            <p>Backend Developer</p>
+            <p>
+              {editedProject.team}
+              {" "}Members
+            </p>
           </div>
 
         </div>
 
-        <h3 className="section-title">📊 Recent Activities</h3>
+        <h3 className="section-title">
+          📌 Project Status
+        </h3>
 
         <div className="activity-box">
-          <p>✅ UI Design Approved</p>
-          <p>✅ Sprint Report Uploaded</p>
-          <p>⏳ Testing In Progress</p>
-          <p>📄 Documentation Updated</p>
+
+          <p>
+            Status :
+            {" "}
+            {editedProject.status}
+          </p>
+
+          <p>
+            Priority :
+            {" "}
+            {editedProject.priority}
+          </p>
+
+          <p>
+            Deadline :
+            {" "}
+            {editedProject.deadline}
+          </p>
+
         </div>
 
-        <h3 className="section-title">📁 Deliverables</h3>
+        <h3 className="section-title">
+          📂 Project Summary
+        </h3>
 
-        <div className="deliverable-grid">
+        <div className="activity-box">
 
-          <div className="deliverable-card">📄 SRS Document</div>
-          <div className="deliverable-card">🎨 UI Design</div>
-          <div className="deliverable-card">📊 Progress Report</div>
-          <div className="deliverable-card">🧪 Test Cases</div>
+          <p>
+            Project :
+            {" "}
+            {editedProject.name}
+          </p>
+
+          <p>
+            Client :
+            {" "}
+            {editedProject.client}
+          </p>
+
+          <p>
+            Budget :
+            {" "}
+            {editedProject.budget}
+          </p>
+
+          <p>
+            Progress :
+            {" "}
+            {editedProject.progress}%
+          </p>
+
+        </div>
+
+        <div
+          style={{
+            marginTop: "20px",
+          }}
+        >
+
+          <button
+            className="download-btn"
+            onClick={() =>
+              navigate(-1)
+            }
+          >
+            ⬅ Back
+          </button>
 
         </div>
 

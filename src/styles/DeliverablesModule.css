@@ -1,0 +1,371 @@
+
+/* =========================
+   DELIVERABLES PAGE
+========================= */
+
+.deliverables-page{
+  margin-left:260px;
+  margin-top:80px;
+  padding:30px;
+  min-height:100vh;
+  background:#f1f5f9;
+}
+
+.page-title{
+  text-align:center;
+  font-size:42px;
+  font-weight:800;
+  color:#0f172a;
+  margin-bottom:30px;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.search-box{
+  flex:1;
+  padding:14px;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  font-size:15px;
+}
+
+.add-btn{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:14px 22px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.add-btn:hover{
+  background:#1d4ed8;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.success-message{
+  background:#dcfce7;
+  color:#15803d;
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:20px;
+  font-weight:600;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container{
+  background:#fff;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.deliverable-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.deliverable-table th{
+  background:#2563eb;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:16px;
+}
+
+.deliverable-table td{
+  padding:18px;
+  text-align:center;
+  border-bottom:1px solid #e2e8f0;
+  color:#334155;
+}
+
+.deliverable-table tr:hover{
+  background:#f8fafc;
+}
+
+/* =========================
+   DATE INPUT
+========================= */
+
+.date-input{
+  padding:10px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+}
+
+/* =========================
+   PRIORITY
+========================= */
+
+.priority{
+  padding:8px 16px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.priority.high{
+  background:#fee2e2;
+  color:#dc2626;
+}
+
+.priority.medium{
+  background:#fef3c7;
+  color:#d97706;
+}
+
+.priority.low{
+  background:#dcfce7;
+  color:#16a34a;
+}
+
+/* =========================
+   STATUS DROPDOWN
+========================= */
+
+.status-dropdown{
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-buttons{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.delete-btn{
+  background:#dc2626;
+  color:#fff;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.delete-btn:hover{
+  background:#b91c1c;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal-box{
+  width:750px;
+  max-width:95%;
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+
+.modal-box h2{
+  text-align:center;
+  margin-bottom:25px;
+  color:#0f172a;
+  font-size:34px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.deliverable-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.deliverable-form input,
+.deliverable-form select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:15px;
+  box-sizing:border-box;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.save-btn{
+  grid-column:span 2;
+  background:#16a34a;
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.save-btn:hover{
+  background:#15803d;
+}
+
+.cancel-btn{
+  grid-column:span 2;
+  background:#64748b;
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.cancel-btn:hover{
+  background:#475569;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .deliverables-page{
+    margin-left:0;
+    padding:15px;
+  }
+
+  .top-bar{
+    flex-direction:column;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .add-btn{
+    width:100%;
+  }
+
+  .deliverable-form{
+    grid-template-columns:1fr;
+  }
+
+  .save-btn,
+  .cancel-btn{
+    grid-column:span 1;
+  }
+
+  .modal-box{
+    width:95%;
+    padding:20px;
+  }
+}
+/* =========================
+   TABLE RESPONSIVE FIX
+========================= */
+
+.table-wrapper{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+.deliverable-table{
+  min-width:900px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .deliverables-page{
+    margin-left:0;
+    margin-top:70px;
+    padding:15px;
+  }
+
+  .top-bar{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+  .add-btn{
+    width:100%;
+  }
+
+  .table-container{
+    overflow:hidden;
+    border-radius:15px;
+  }
+
+  .table-wrapper{
+    overflow-x:auto;
+  }
+
+  .deliverable-table{
+    min-width:900px;
+  }
+
+}
+
+/* SMALL MOBILE */
+
+@media(max-width:480px){
+
+  .page-title{
+    font-size:24px;
+    text-align:center;
+  }
+
+  .modal-box{
+    width:95%;
+    padding:20px;
+  }
+
+  .modal-box h2{
+    font-size:22px;
+  }
+
+}
